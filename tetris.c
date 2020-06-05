@@ -43,14 +43,14 @@ const unsigned char bricks[numBrickTypes][4][4] = {
 };
 // }}}
 
-static void dieIfOutOfMemory(void *pointer) { // {{{
+static void DieIfOutOfMemory(void *pointer) { // {{{
 	if (pointer == NULL) {
 		printf("Error: Out of memory\n");
 		exit(1);
 	}
 } // }}}
 
-static void nextBrick(TetrisGame *game) { // {{{
+static void NextBrick(TetrisGame *game) { // {{{
 	game->brick = game->nextBrick;
 	game->brick.x = game->width/2 - 2;
 	game->brick.y = 0;
@@ -61,20 +61,20 @@ static void nextBrick(TetrisGame *game) { // {{{
 	game->nextBrick.y = 0;
 } // }}}
 
-TetrisGame *newTetrisGame(unsigned int width, unsigned int height) { // {{{
+TetrisGame *NewTetrisGame(unsigned int width, unsigned int height) { // {{{
 	TetrisGame *game = malloc(sizeof(TetrisGame));
-	dieIfOutOfMemory(game);
+	DieIfOutOfMemory(game);
 	game->width = width;
 	game->height = height;
 	game->size = width * height;
 	game->board = calloc(game->size, sizeof(char));
-	dieIfOutOfMemory(game->board);
+	DieIfOutOfMemory(game->board);
 	game->isRunning = 1;
 	game->isPaused  = 0;
 	game->sleepUsec = 500000;
 	game->score = 0;
-	nextBrick(game); // fill preview
-	nextBrick(game); // put into game
+	NextBrick(game); // fill preview
+	NextBrick(game); // put into game
 	// init terminal for non-blocking and no-echo getchar()
 	struct termios term;
 	tcgetattr(STDIN_FILENO, &game->termOrig);
@@ -86,7 +86,7 @@ TetrisGame *newTetrisGame(unsigned int width, unsigned int height) { // {{{
 	// init signals for timer and errors
 	struct sigaction signalAction;
 	sigemptyset(&signalAction.sa_mask);
-	signalAction.sa_handler = signalHandler;
+	signalAction.sa_handler = SignalHandler;
 	signalAction.sa_flags = 0;
 	sigaction(SIGINT,  &signalAction, NULL);
 	sigaction(SIGTERM, &signalAction, NULL);
@@ -98,16 +98,16 @@ TetrisGame *newTetrisGame(unsigned int width, unsigned int height) { // {{{
 	return game;
 } // }}}
 
-void destroyTetrisGame(TetrisGame *game) { // {{{
+void DestroyTetrisGame(TetrisGame *game) { // {{{
 	if (game == NULL) return;
 	tcsetattr(STDIN_FILENO, TCSANOW, &game->termOrig);
-	printf("Your score: %i\n", game->score);
+	printf("Your score: %li\n", game->score);
 	printf("Game over.\n");
 	free(game->board);
 	free(game);
 } // }}}
 
-unsigned char colorOfBrickAt(FallingBrick *brick, int x, int y) { // {{{
+unsigned char ColorOfBrickAt(FallingBrick *brick, int x, int y) { // {{{
 	if (brick->type < 0) return 0;
 	int v = y - brick->y;
 	if (v < 0 || v >= 4) return 0;
@@ -120,7 +120,7 @@ unsigned char colorOfBrickAt(FallingBrick *brick, int x, int y) { // {{{
 	return 0;
 } // }}}
 
-static char brickCollides(TetrisGame *game) { // {{{
+static char BrickCollides(TetrisGame *game) { // {{{
 	for (int i = 0; i < 4; i++) {
 		int p = bricks[game->brick.type][game->brick.rotation][i];
 		int x = p % 4 + game->brick.x;
@@ -134,7 +134,7 @@ static char brickCollides(TetrisGame *game) { // {{{
 	return 0;
 } // }}}
 
-static void landBrick(TetrisGame *game) { // {{{
+static void LandBrick(TetrisGame *game) { // {{{
 	if (game->brick.type < 0) return;
 	for (int i = 0; i < 4; i++) {
 		int p = bricks[game->brick.type][game->brick.rotation][i];
@@ -145,7 +145,7 @@ static void landBrick(TetrisGame *game) { // {{{
 	}
 } // }}}
 
-static void clearFullRows(TetrisGame *game) { // {{{
+static void ClearFullRows(TetrisGame *game) { // {{{
 	int width = game->width;
 	int rowsCleared = 0;
 	for (int y = game->brick.y; y < game->brick.y + 4; y++) {
@@ -171,64 +171,64 @@ static void clearFullRows(TetrisGame *game) { // {{{
 	}
 } // }}}
 
-void tick(TetrisGame *game) { // {{{
+void Tick(TetrisGame *game) { // {{{
 	if (game->isPaused) return;
 	game->brick.y++;
-	if (brickCollides(game)) {
+	if (BrickCollides(game)) {
 		game->brick.y--;
-		landBrick(game);
-		clearFullRows(game);
-		nextBrick(game);
-		if (brickCollides(game))
+		LandBrick(game);
+		ClearFullRows(game);
+		NextBrick(game);
+		if (BrickCollides(game))
 			game->isRunning = 0;
 	}
-	printBoard(game);
+	PrintBoard(game);
 } // }}}
 
-static void pauseUnpause(TetrisGame *game) { // {{{
+static void PauseUnpause(TetrisGame *game) { // {{{
 	if (game->isPaused) {
 		// TODO de-/reactivate timer
-		tick(game);
+		Tick(game);
 	}
 	game->isPaused ^= 1;
 } // }}}
 
-static void moveBrick(TetrisGame *game, char x, char y) { // {{{
+static void MoveBrick(TetrisGame *game, char x, char y) { // {{{
 	if (game->isPaused) return;
 	game->brick.x += x;
 	game->brick.y += y;
-	if (brickCollides(game)) {
+	if (BrickCollides(game)) {
 		game->brick.x -= x;
 		game->brick.y -= y;
 	}
-	printBoard(game);
+	PrintBoard(game);
 } // }}}
 
-static void rotateBrick(TetrisGame *game, char direction) { // {{{
+static void RotateBrick(TetrisGame *game, char direction) { // {{{
 	if (game->isPaused) return;
 	unsigned char oldRotation = game->brick.rotation;
 	game->brick.rotation += 4 + direction; // 4: keep it positive
 	game->brick.rotation %= 4;
-	if (brickCollides(game))
+	if (BrickCollides(game))
 		game->brick.rotation = oldRotation;
-	printBoard(game);
+	PrintBoard(game);
 } // }}}
 
-void processInputs(TetrisGame *game) { // {{{
+void ProcessInputs(TetrisGame *game) { // {{{
 	char c = getchar();
 	do {
 		switch (c) {
-			case ' ': moveBrick(game, 0, 1); break;
-			//case '?': dropBrick(game); break;
-			case 'p': pauseUnpause(game); break;
+			case ' ': MoveBrick(game, 0, 1); break;
+			//case '?': DropBrick(game); break;
+			case 'p': PauseUnpause(game); break;
 			case 'q': game->isRunning = 0; break;
 			case 27: // ESC
 				getchar();
 				switch (getchar()) {
-					case 'A': rotateBrick(game,  1);  break; // up
-					case 'B': rotateBrick(game, -1);  break; // down
-					case 'C': moveBrick(game,  1, 0); break; // right
-					case 'D': moveBrick(game, -1, 0); break; // left
+					case 'A': RotateBrick(game,  1);  break; // up
+					case 'B': RotateBrick(game, -1);  break; // down
+					case 'C': MoveBrick(game,  1, 0); break; // right
+					case 'D': MoveBrick(game, -1, 0); break; // left
 				}
 				break;
 		}

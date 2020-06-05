@@ -35,11 +35,11 @@ typedef struct { // TetrisGame {{{
 	struct itimerval timer;
 } TetrisGame; // }}}
 
-extern void signalHandler(int signal);
-extern void printBoard(TetrisGame *game);
+extern void SignalHandler(int signal);
+extern void PrintBoard(TetrisGame *game);
 
-TetrisGame *newTetrisGame(unsigned int width, unsigned int height);
-void destroyTetrisGame(TetrisGame *game);
-void processInputs(TetrisGame *game);
-void tick(TetrisGame *game);
-unsigned char colorOfBrickAt(FallingBrick *brick, int x, int y);
+TetrisGame *NewTetrisGame(unsigned int width, unsigned int height);
+void DestroyTetrisGame(TetrisGame *game);
+void ProcessInputs(TetrisGame *game);
+void Tick(TetrisGame *game);
+unsigned char ColorOfBrickAt(FallingBrick *brick, int x, int y);

@@ -27,7 +27,7 @@
 
 TetrisGame *game;
 
-void printBoard(TetrisGame *game) { // {{{
+void PrintBoard(TetrisGame *game) { // {{{
 	int width = game->width;
 	char line[width * 2 + 1];
 	memset(line, '-', width * 2);
@@ -40,17 +40,17 @@ void printBoard(TetrisGame *game) { // {{{
 		for (int x = 0; x < game->width; x++) {
 			char c = game->board[x + y * game->width];
 			if (c == 0) // empty? try falling brick
-				c = colorOfBrickAt(&game->brick, x, y);
+				c = ColorOfBrickAt(&game->brick, x, y);
 			printf("\e[3%i;4%im  ", c, c);
 		}
 		if (y == 4) printf("\e[39;49m|  \e[1mScore\e[0m |\n");
-		else if (y == 5) printf("\e[39;49m| %6i |\n", game->score);
+		else if (y == 5) printf("\e[39;49m| %6li |\n", game->score);
 		else if (y == 6) printf("\e[39;49m+--------/\n");
 		else {
 			if (y < 4) {
 				printf("\e[39;49m|");
 				for (int x = 0; x < 4; x++) {
-					char c = colorOfBrickAt(&game->nextBrick, x, y);
+					char c = ColorOfBrickAt(&game->nextBrick, x, y);
 					printf("\e[3%i;4%im  ", c, c);
 				}
 				foo++;
@@ -61,7 +61,7 @@ void printBoard(TetrisGame *game) { // {{{
 	printf("\\%s/\n", line);
 } // }}}
 
-void welcome() { // {{{
+void Welcome() { // {{{
 	printf("tetris-term  Copyright (C) 2014  Gjum\n");
 	printf("\n");
 	printf("This program comes with ABSOLUTELY NO WARRANTY.\n");
@@ -87,7 +87,7 @@ void welcome() { // {{{
 	printf("\n");
 } // }}}
 
-void signalHandler(int signal) { // {{{
+void SignalHandler(int signal) { // {{{
 	switch(signal) {
 		case SIGINT:
 		case SIGTERM:
@@ -95,7 +95,7 @@ void signalHandler(int signal) { // {{{
 			game->isRunning = 0;
 			break;
 		case SIGALRM:
-			tick(game);
+			Tick(game);
 			game->timer.it_value.tv_usec = game->sleepUsec;
 			setitimer(ITIMER_REAL, &game->timer, NULL);
 			break;
@@ -105,16 +105,16 @@ void signalHandler(int signal) { // {{{
 
 int main(int argc, char **argv) { // {{{
 	srand(time(0));
-	welcome();
-	game = newTetrisGame(10, 20);
+	Welcome();
+	game = NewTetrisGame(10, 20);
 	// create space for the board
 	for (int i = 0; i < game->height + 2; i++) printf("\n");
-	printBoard(game);
+	PrintBoard(game);
 	while (game->isRunning) {
 		usleep(50000);
-		processInputs(game);
+		ProcessInputs(game);
 	}
-	destroyTetrisGame(game);
+	DestroyTetrisGame(game);
 		
 } // }}}
 
