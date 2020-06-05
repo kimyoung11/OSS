@@ -115,6 +115,6 @@ int main(int argc, char **argv) { // {{{
 		processInputs(game);
 	}
 	destroyTetrisGame(game);
-	return 0;	
+		
 } // }}}
 
