@@ -33,7 +33,7 @@ typedef struct { // TetrisGame {{{
 	unsigned long score;
 	struct termios termOrig;
 	struct itimerval timer;
-} TetrisGame; // }}}
+} TetrisGame; //  }}}
 
 extern void SignalHandler(int signal);
 extern void PrintBoard(TetrisGame *game);
