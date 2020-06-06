@@ -100,7 +100,6 @@ void SignalHandler(int signal) { //signal process{{{
 
 	switch(signal) {
 		case SIGINT:
-		case SIGTERM:
 		case SIGSEGV:
 			game->isRunning = 0;
 			break;
@@ -116,7 +115,7 @@ void SignalHandler(int signal) { //signal process{{{
 
 
 int main(int argc, char **argv) { 
-	srand(time(0));
+	srand(time(SEED_VALUE));
 	Welcome();
 	game = NewTetrisGame(BOARD_WIDTH,BOARD_HEIGHT);
 	// create space for the board
