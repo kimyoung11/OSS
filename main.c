@@ -27,23 +27,6 @@
 //#include "tetris.h"
 #include "print.c"
 
-void SignalHandler(int signal) { //signal process{{{
-
-	switch(signal) {
-		case SIGINT:
-		case SIGSEGV:
-			game->isRunning = 0;
-			break;
-		
-		case SIGALRM:
-			Tick(game);
-			game->timer.it_value.tv_usec = game->sleepUsec;
-			setitimer(ITIMER_REAL, &game->timer, NULL);
-			break;
-	}
-
-	return;
-}
 
 int main(int argc, char **argv) { 
 	

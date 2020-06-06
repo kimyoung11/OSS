@@ -25,6 +25,24 @@ static void DieIfOutOfMemory(void *pointer) { // memory check{{{
 	}
 } // }}}
 
+void SignalHandler(int signal) { //signal process{{{
+
+	switch (signal) {
+	case SIGINT:
+	case SIGSEGV:
+		game->isRunning = 0;
+		break;
+
+	case SIGALRM:
+		Tick(game);
+		game->timer.it_value.tv_usec = game->sleepUsec;
+		setitimer(ITIMER_REAL, &game->timer, NULL);
+		break;
+	}
+
+	return;
+}
+
 TetrisGame *NewTetrisGame(unsigned int width, unsigned int height) { // tetris information{{{
 	TetrisGame *game = malloc(sizeof(TetrisGame));
 	DieIfOutOfMemory(game);
