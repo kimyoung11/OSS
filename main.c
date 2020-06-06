@@ -88,8 +88,6 @@ void Welcome() { //show copyright,manual {{{
 	printf("\n");
 } // }}}
 
-
-void SignalHandler(int signal) {
 void SignalHandler(int signal) { //signal process{{{
 	switch(signal) {
 		case SIGINT:
