@@ -100,7 +100,6 @@ void SignalHandler(int signal) { //signal process{{{
 
 	switch(signal) {
 		case SIGINT:
-		case SIGTERM:
 		case SIGSEGV:
 			game->isRunning = 0;
 			break;
@@ -114,19 +113,11 @@ void SignalHandler(int signal) { //signal process{{{
 }
 
 
-int main(int argc, char **argv) { // {{{
-	srand(time(0));
-	Welcome();
-	game = NewTetrisGame(BOARD_WIDTH,BOARD_HEIGHT);
-	// create space for the board
-	for (int i = 0; i < game->height + 2; i++) {
-	printf("\n");
-	}
 
 int main(int argc, char **argv) { 
-	srand(time(0));
+	srand(time(SEED_VALUE));
 	Welcome();
-	game = NewTetrisGame(GAMEBOARD_WIDTH, GAMEBOARD_HEIGHT);
+	game = NewTetrisGame(BOARD_WIDTH,BOARD_HEIGHT);
 	// create space for the board
 	for (int i = 0; i < game->height + 2; i++) printf("\n");
 	
