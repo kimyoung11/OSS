@@ -87,11 +87,7 @@ void Welcome() { //show copyright,manual {{{
 	printf("\n");
 } // }}}
 
-<<<<<<< HEAD
-void SignalHandler(int signal) {
-=======
 void SignalHandler(int signal) { //signal process{{{
->>>>>>> 896e94b1f450e5952a9a7f0c74710e25e9d219d7
 	switch(signal) {
 		case SIGINT:
 		case SIGTERM:
