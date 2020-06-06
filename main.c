@@ -27,7 +27,6 @@
 
 TetrisGame *game;
 
-
 void PrintBoard(TetrisGame *game) { //show board{{{
 	int width = game->width;
 	char line[width * 2 + 1];
