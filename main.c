@@ -90,6 +90,12 @@ void Welcome() { //show copyright,manual {{{
 } // }}}
 
 
+
+
+
+
+
+
 void SignalHandler(int signal) { //signal process{{{
 
 	switch(signal) {
