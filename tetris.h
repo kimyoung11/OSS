@@ -19,12 +19,15 @@
 #include <termios.h>
 #include <sys/time.h>
 
-typedef struct { // FallingBrick {{{
+#define GAMEBOARD_WIDTH = 10
+#define GAMEBOARD_HEIGHT = 20
+
+typedef struct { // FallingBrick 
 	unsigned char type, rotation, color;
 	int x, y;
-} FallingBrick; // }}}
+} FallingBrick; //
 
-typedef struct { // TetrisGame {{{
+typedef struct { // TetrisGame 
 	unsigned int width, height, size; // of the board
 	unsigned char *board; // indices of pattern
 	FallingBrick brick, nextBrick;
@@ -33,7 +36,7 @@ typedef struct { // TetrisGame {{{
 	unsigned long score;
 	struct termios termOrig;
 	struct itimerval timer;
-} TetrisGame; //  }}}
+} TetrisGame; // 
 
 extern void SignalHandler(int signal);
 extern void PrintBoard(TetrisGame *game);
