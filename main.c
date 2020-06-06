@@ -29,7 +29,6 @@
 
 TetrisGame *game;
 
-
 void PrintBoard(TetrisGame *game) { //show board{{{
 	int width = game->width;
 	char line[width * 2 + 1];
@@ -89,6 +88,10 @@ void Welcome() { //show copyright,manual {{{
 	printf("<q>     quit game\n");
 	printf("\n");
 } // }}}
+
+
+
+
 
 
 

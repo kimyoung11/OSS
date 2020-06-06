@@ -105,9 +105,9 @@ void DestroyTetrisGame(TetrisGame *game) { // end game{{{
 	printf("Game over.\n");
 	free(game->board);
 	free(game);
-} // }}}
+} 
 
-unsigned char ColorOfBrickAt(FallingBrick *brick, int x, int y) { // set brick color{{{
+unsigned char ColorOfBrickAt(FallingBrick *brick, int x, int y) { // set brick color
 	if (brick->type < 0) return 0;
 	int v = y - brick->y;
 	if (v < 0 || v >= 4) return 0;
@@ -118,9 +118,8 @@ unsigned char ColorOfBrickAt(FallingBrick *brick, int x, int y) { // set brick c
 			return brick->color;
 	}
 	return 0;
-} // }}}
 
-static char BrickCollides(TetrisGame *game) { // collision check{{{
+static char BrickCollides(TetrisGame *game) { // collision check
 	for (int i = 0; i < 4; i++) {
 		int p = bricks[game->brick.type][game->brick.rotation][i];
 		int x = p % 4 + game->brick.x;
@@ -132,9 +131,9 @@ static char BrickCollides(TetrisGame *game) { // collision check{{{
 			return 1;
 	}
 	return 0;
-} // }}}
+} 
 
-static void LandBrick(TetrisGame *game) { // brick land {{{
+static void LandBrick(TetrisGame *game) { // brick land 
 	if (game->brick.type < 0) return;
 	for (int i = 0; i < 4; i++) {
 		int p = bricks[game->brick.type][game->brick.rotation][i];
@@ -143,7 +142,7 @@ static void LandBrick(TetrisGame *game) { // brick land {{{
 		p = x + y * game->width;
 		game->board[p] = game->brick.color;
 	}
-} // }}}
+} 
 
 static void ClearFullRows(TetrisGame *game) { // clear rows when row is full {{{
 	int width = game->width;
