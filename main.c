@@ -24,6 +24,8 @@
 #include <unistd.h>
 
 #include "tetris.h"
+#include "constants.c"
+
 
 TetrisGame *game;
 
@@ -105,11 +107,13 @@ void SignalHandler(int signal) { //signal process{{{
 } // }}}
 
 int main(int argc, char **argv) { // {{{
-	srand(time(0));
+	srand(time(SEED_VALUE));
 	Welcome();
-	game = NewTetrisGame(10, 20);
+	game = NewTetrisGame(BOARD_WIDTH,BOARD_HEIGHT);
 	// create space for the board
-	for (int i = 0; i < game->height + 2; i++) printf("\n");
+	for (int i = 0; i < game->height + 2; i++) {
+	printf("\n");
+	}
 	PrintBoard(game);
 	while (game->isRunning) {
 		usleep(50000);
