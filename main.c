@@ -27,7 +27,8 @@
 
 TetrisGame *game;
 
-void PrintBoard(TetrisGame *game) { // {{{
+
+void PrintBoard(TetrisGame *game) { //show board{{{
 	int width = game->width;
 	char line[width * 2 + 1];
 	memset(line, '-', width * 2);
@@ -61,7 +62,7 @@ void PrintBoard(TetrisGame *game) { // {{{
 	printf("\\%s/\n", line);
 } // }}}
 
-void Welcome() { // {{{
+void Welcome() { //show copyright,manual {{{
 	printf("tetris-term  Copyright (C) 2014  Gjum\n");
 	printf("\n");
 	printf("This program comes with ABSOLUTELY NO WARRANTY.\n");
@@ -87,7 +88,11 @@ void Welcome() { // {{{
 	printf("\n");
 } // }}}
 
+<<<<<<< HEAD
 void SignalHandler(int signal) {
+=======
+void SignalHandler(int signal) { //signal process{{{
+>>>>>>> 896e94b1f450e5952a9a7f0c74710e25e9d219d7
 	switch(signal) {
 		case SIGINT:
 		case SIGTERM:
