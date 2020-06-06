@@ -19,8 +19,8 @@
 #include <termios.h>
 #include <sys/time.h>
 
-#define GAMEBOARD_WIDTH = 10
-#define GAMEBOARD_HEIGHT = 20
+#define GAMEBOARD_WIDTH 10
+#define GAMEBOARD_HEIGHT 20
 
 typedef struct { // FallingBrick 
 	unsigned char type, rotation, color;
