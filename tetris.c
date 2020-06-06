@@ -114,7 +114,7 @@ unsigned char ColorOfBrickAt(FallingBrick *brick, int x, int y) { // set brick c
 	int u = x - brick->x;
 	if (u < 0 || u >= 4) return 0;
 	for (int i = 0; i < 4; i++) {
-		if (u + 4*v == bricks[brick->type][brick->rotation][i])
+		if (u + 4 * v == bricks[brick->type][brick->rotation][i])
 			return brick->color;
 	}
 	return 0;
