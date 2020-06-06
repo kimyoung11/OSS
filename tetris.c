@@ -118,6 +118,7 @@ unsigned char ColorOfBrickAt(FallingBrick *brick, int x, int y) { // set brick c
 			return brick->color;
 	}
 	return 0;
+}
 
 static char BrickCollides(TetrisGame *game) { // collision check
 	for (int i = 0; i < 4; i++) {
