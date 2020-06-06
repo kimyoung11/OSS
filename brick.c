@@ -116,7 +116,7 @@ static void MoveBrick(TetrisGame *game, char x, char y) { // move brick {{{
 	PrintBoard(game);
 } // }}}
 
-static void RotateBrick(TetrisGame *game, char direction) { //rotate brick {{{
+static void RotateBrick(TetrisGame *game, char  brickDirection) { //rotate brick {{{
 	if (game->isPaused) return;
 	unsigned char oldRotation = game->brick.rotation;
 	game->brick.rotation += 4 + direction; // 4: keep it positive
